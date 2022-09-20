@@ -6,7 +6,7 @@ public static class MQ
     private static IMQProcessor? _mqProcessor;
     public static void Init()
     {
-        _mqProcessor = new RabbitMQ();
+        _mqProcessor = TraceFactory.CreateTracableObject<RabbitMQ>(false, false);
         _mqProcessor.Init();
     }
     public static void Consume(SubmissionConsumer consumer)

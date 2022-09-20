@@ -5,6 +5,7 @@ public static class JudgerManager
     public static int JudgerCount { get; set; } = 0;
     public static SemaphoreSlim judgerSemaphore = new SemaphoreSlim(0, 1);
     public static bool _stopFlag = false;
+    private static IJudgerProcessor _judgerProcessor = TraceFactory.CreateTracableObject<IJudgerProcessor>(false, false);
     public static void Init()
     {
         JudgerCount = Math.Min(1, Environment.ProcessorCount);
@@ -18,7 +19,21 @@ public static class JudgerManager
         {
             if (_stopFlag) break;
             judgerSemaphore.Wait();
-
+            new Thread((obj) =>
+            {
+                try
+                {
+                    _judgerProcessor.StartJudge();
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("评测过程发生Exception,e={0}", e);
+                }
+                finally
+                {
+                    judgerSemaphore.Release();
+                }
+            }).Start();
         }
     }
 

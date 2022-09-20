@@ -29,5 +29,6 @@ public class JudgeCase
     [MaxLength(1024)]
     public string Properties { get; set; } = string.Empty;
     public string MD5 { get; set; } = string.Empty;
+    public int TimeLimit { get; set; }
     //TODO 补全评测用例属性
 }

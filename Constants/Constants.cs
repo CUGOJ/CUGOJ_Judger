@@ -6,3 +6,12 @@ public enum CheckResult
     WA,
     //TODO 补全结果状态
 }
+
+public enum JudgeResult
+{
+    Compiling,
+    Running,
+    AC,
+    WA,
+
+}
